@@ -134,6 +134,8 @@ type ClientTransportConfig struct {
 	// before the connection is terminated, in seconds. It is not recommended
 	// to change this value. By default, this value is 90. Set negative value to disable it.
 	HeartbeatTimeout int64 `json:"heartbeatTimeout,omitempty"`
+	// WebsocketPath specifies the path for websocket connections.
+	WebsocketPath string `json:"websocketPath,omitempty"`
 	// TLS specifies TLS settings for the connection to the server.
 	TLS TLSClientConfig `json:"tls,omitempty"`
 }
@@ -146,6 +148,7 @@ func (c *ClientTransportConfig) Complete() {
 	c.PoolCount = util.EmptyOr(c.PoolCount, 1)
 	c.TCPMux = util.EmptyOr(c.TCPMux, lo.ToPtr(true))
 	c.TCPMuxKeepaliveInterval = util.EmptyOr(c.TCPMuxKeepaliveInterval, 30)
+	c.WebsocketPath = util.EmptyOr(c.WebsocketPath, "/~!frp")
 	if lo.FromPtr(c.TCPMux) {
 		// If TCPMux is enabled, heartbeat of application layer is unnecessary because we can rely on heartbeat in tcpmux.
 		c.HeartbeatInterval = util.EmptyOr(c.HeartbeatInterval, -1)

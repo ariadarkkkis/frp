@@ -187,6 +187,8 @@ type ServerTransportConfig struct {
 	// before terminating the connection. It is not recommended to change this
 	// value. By default, this value is 90. Set negative value to disable it.
 	HeartbeatTimeout int64 `json:"heartbeatTimeout,omitempty"`
+	// WebsocketPath specifies the path for websocket connections.
+	WebsocketPath string `json:"websocketPath,omitempty"`
 	// QUIC options.
 	QUIC QUICOptions `json:"quic,omitempty"`
 	// TLS specifies TLS settings for the connection from the client.
@@ -204,6 +206,7 @@ func (c *ServerTransportConfig) Complete() {
 	} else {
 		c.HeartbeatTimeout = util.EmptyOr(c.HeartbeatTimeout, 90)
 	}
+	c.WebsocketPath = util.EmptyOr(c.WebsocketPath, "/~!frp")
 	c.QUIC.Complete()
 	if c.TLS.TrustedCaFile != "" {
 		c.TLS.Force = true
