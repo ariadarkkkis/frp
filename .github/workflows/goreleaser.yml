@@ -7,7 +7,7 @@ jobs:
   goreleaser:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Needed to create releases and upload assets
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
